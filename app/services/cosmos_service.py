@@ -14,10 +14,10 @@ class CosmosService:
     def search_town(self, keyword: str):
         keyword = keyword.strip()
         query = """
-                SELECT * \
+                SELECT *
                 FROM c
                 WHERE CONTAINS(c.city, @keyword, true)
-                   OR CONTAINS(c.town, @keyword, true) \
+                   OR CONTAINS(c.town, @keyword, true)
                 """
         params = [{"name": "@keyword", "value": keyword}]
         items = list(
