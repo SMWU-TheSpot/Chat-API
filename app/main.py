@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.core.cors import setup_cors
 from app.schemas.chat import ChatRequest, ChatResponse
 from app.services.cosmos_service import CosmosService
 from app.services.openai_service import OpenAIService
@@ -10,6 +11,8 @@ app = FastAPI(
     descrption="2025-02 숙명여대 인공지능산업체특강 최종 프로젝트",
     version="1.0.0"
 )
+
+setup_cors(app)
 
 cosmos = CosmosService()
 prompt_service = PromptService()
