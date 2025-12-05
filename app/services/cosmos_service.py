@@ -52,3 +52,11 @@ class CosmosService:
                 enable_cross_partition_query=True
             )
         )
+
+    # 서울 전체 검색
+    def search_all(self):
+        query = "SELECT * FROM c"
+        return list(self.town.query_items(
+            query=query,
+            enable_cross_partition_query=True
+        ))

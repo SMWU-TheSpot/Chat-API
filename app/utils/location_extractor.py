@@ -1,21 +1,23 @@
 import re
 
 def extract_location(question: str):
-    # 패턴: OOO구 / OOO동 / OOO1동 / OO2동 등
     city_pattern = r"[가-힣]+구"
     town_pattern = r"[가-힣]+[0-9]*동"
 
-    found_city = re.findall(city_pattern, question)
-    found_town = re.findall(town_pattern, question)
+    cities = re.findall(city_pattern, question)
+    towns = re.findall(town_pattern, question)
 
-    city = found_city[0] if found_city else None
-    town = found_town[0] if found_town else None
+    # 동이 있으면 동 기준
+    if towns:
+        return list(set(towns))
 
-    # town이 가장 중요 - TownSummary 검색은 town 기준
-    if town:
-        return town
-    if city:
-        return city
+    # 구가 여러 개이면 그대로 반환
+    if len(cities) >= 1:
+        return list(set(cities))
 
-    # 둘 다 없으면 전체 문장을 그대로 반환 (fallback)
-    return question.strip()
+    # 서울이 포함될 경우, 전체 조회
+    if "서울" in question:
+        return ["__SEOUL__"]
+
+    # 아무것도 없으면 문장 전체
+    return [question.strip()]
